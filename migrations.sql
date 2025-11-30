@@ -1,0 +1,23 @@
+﻿CREATE DATABASE IF NOT EXISTS botrh CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE botrh;
+
+CREATE TABLE IF NOT EXISTS intents (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  intent_name VARCHAR(255) UNIQUE,
+  answer TEXT
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  question TEXT,
+  answer TEXT
+);
+
+CREATE TABLE IF NOT EXISTS demandes_rh (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user VARCHAR(255),
+  type VARCHAR(100),
+  contenu TEXT,
+  statut VARCHAR(50) DEFAULT 'En attente',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

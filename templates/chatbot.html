@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='fr'>
+  <head>
+    <meta charset='utf-8'>
+    <title>Chatbot RH</title>
+    <link rel='stylesheet' href='/static/style.css'>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>Chatbot RH</h1>
+      <div id='chatbox'></div>
+      <input id='msg' placeholder='Posez votre question...' />
+      <button id='send'>Envoyer</button>
+    </div>
+
+    <script>
+      document.getElementById('send').onclick = async function(){
+        const msg = document.getElementById('msg').value;
+        if(!msg) return;
+        const resp = await fetch('/chat', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({message: msg})
+        });
+        const data = await resp.json();
+        const box = document.getElementById('chatbox');
+        box.innerHTML += '<div class=\"user\">Q: '+msg+'</div>';
+        box.innerHTML += '<div class=\"bot\">A: '+data.answer+'</div>';
+        document.getElementById('msg').value = '';
+      }
+    </script>
+  </body>
+</html>

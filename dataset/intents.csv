@@ -1,0 +1,4 @@
+﻿intent,example,answer
+conge_general,comment calculer mes congÃ©s ?,Vous avez droit Ã  2.5 jours/mois de service effectif.
+prime_anciennete,comment calculer la prime d'anciennetÃ© ?,La prime d'anciennetÃ© est calculÃ©e sur la base du salaire et du nombre d'annÃ©es.
+heures_sup,taux des heures supplÃ©mentaires,Les heures supplÃ©mentaires se calculent par semaine; vÃ©rifiez le code du travail local.

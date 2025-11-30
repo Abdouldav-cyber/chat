@@ -1,0 +1,7 @@
+﻿venv/
+.venv/
+__pycache__/
+*.pyc
+services/*.pkl
+*.sqlite3
+.env
