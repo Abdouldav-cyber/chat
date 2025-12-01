@@ -1,6 +1,25 @@
-﻿Flask>=2.0
-scikit-learn>=1.0
-pandas>=1.3
-mysql-connector-python>=8.0
-joblib
-numpy
+﻿# =============================================
+# Chatbot RH - Fonction Publique
+# Dépendances Python
+# =============================================
+
+# Framework Web
+Flask>=2.3.0
+flask-cors>=4.0.0
+
+# Base de données PostgreSQL
+psycopg2-binary>=2.9.9
+
+# NLP avec SpaCy
+spacy>=3.7.0
+
+# Utilitaires
+pandas>=2.0.0
+numpy>=1.24.0
+python-dotenv>=1.0.0
+
+# Planification des notifications
+apscheduler>=3.10.0
+
+# Hachage des mots de passe
+werkzeug>=3.0.0

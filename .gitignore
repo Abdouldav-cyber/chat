@@ -1,7 +1,62 @@
-﻿venv/
+﻿# =============================================
+# Chatbot RH - .gitignore
+# =============================================
+
+# Environnement virtuel Python
 .venv/
+venv/
+ENV/
+env/
+
+# Fichiers Python compilés
 __pycache__/
-*.pyc
-services/*.pkl
-*.sqlite3
+*.py[cod]
+*$py.class
+*.so
+
+# Fichiers d'environnement (contient des secrets)
 .env
+*.env
+config.env
+
+# Fichiers de base de données locaux
+*.db
+*.sqlite3
+
+# Fichiers de logs
+*.log
+logs/
+
+# Modèles SpaCy téléchargés (trop volumineux)
+services/*.pkl
+
+# Fichiers IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers de distribution
+dist/
+build/
+*.egg-info/
+
+# Fichiers de cache
+.cache/
+*.cache
+
+# Fichiers de test coverage
+htmlcov/
+.coverage
+.pytest_cache/
+
+# Fichiers temporaires
+tmp/
+temp/
+*.tmp

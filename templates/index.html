@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot RH - Fonction Publique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #ed8936;
+            --accent-light: #f6ad55;
+            --success: #38a169;
+            --bg-dark: #0f172a;
+            --bg-card: rgba(255, 255, 255, 0.08);
+            --text-light: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e293b 50%, var(--primary) 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(237, 137, 54, 0.1);
+            animation: move 25s infinite;
+            border-radius: 50%;
+        }
+
+        .bg-animation span:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; }
+        .bg-animation span:nth-child(2) { left: 20%; width: 40px; height: 40px; animation-delay: 2s; animation-duration: 12s; }
+        .bg-animation span:nth-child(3) { left: 35%; width: 60px; height: 60px; animation-delay: 4s; }
+        .bg-animation span:nth-child(4) { left: 50%; width: 100px; height: 100px; animation-delay: 0s; animation-duration: 18s; }
+        .bg-animation span:nth-child(5) { left: 65%; width: 50px; height: 50px; animation-delay: 0s; }
+        .bg-animation span:nth-child(6) { left: 80%; width: 70px; height: 70px; animation-delay: 3s; animation-duration: 15s; }
+        .bg-animation span:nth-child(7) { left: 90%; width: 90px; height: 90px; animation-delay: 7s; }
+
+        @keyframes move {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Main content */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 0;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(237, 137, 54, 0.2);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: rotateY(180deg);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Features section */
+        .features {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .features h3 {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: var(--accent-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .feature {
+            padding: 25px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .feature h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .subtitle { font-size: 1rem; }
+            .logo { font-size: 3rem; }
+            header { padding: 40px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="container">
+        <header>
+            <div style="position: absolute; top: 20px; right: 20px;">
+                <a href="/login" class="login-btn" id="authBtn">
+                    <i class="fas fa-sign-in-alt"></i> Connexion
+                </a>
+            </div>
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h1>Chatbot RH - Fonction Publique</h1>
+            <p class="subtitle">
+                Votre assistant intelligent dédié aux ressources humaines. 
+                Congés, paie, avantages sociaux — toutes vos questions RH en un clic.
+            </p>
+        </header>
+        
+        <style>
+            .login-btn {
+                background: linear-gradient(135deg, var(--accent), var(--accent-light));
+                color: white;
+                padding: 12px 24px;
+                border-radius: 10px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.3s;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .login-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 20px rgba(237, 137, 54, 0.4);
+            }
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            .user-name {
+                color: var(--text-light);
+                font-weight: 500;
+            }
+            .logout-btn {
+                background: rgba(229, 62, 62, 0.2);
+                color: #fc8181;
+                padding: 8px 16px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: all 0.3s;
+            }
+            .logout-btn:hover {
+                background: rgba(229, 62, 62, 0.4);
+            }
+        </style>
+        
+        <script>
+            // Vérifier si l'utilisateur est connecté
+            async function checkLoginStatus() {
+                try {
+                    const response = await fetch('/api/auth/me');
+                    const data = await response.json();
+                    
+                    if (data.authenticated) {
+                        const authBtn = document.getElementById('authBtn');
+                        const redirectUrl = ['gestionnaire', 'admin'].includes(data.user.role) 
+                            ? '/gestionnaire' : '/employe';
+                        
+                        authBtn.parentElement.innerHTML = `
+                            <div class="user-info">
+                                <span class="user-name">👤 ${data.user.prenom} ${data.user.nom}</span>
+                                <a href="${redirectUrl}" class="login-btn">
+                                    <i class="fas fa-user"></i> Mon espace
+                                </a>
+                                <a href="#" class="logout-btn" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </a>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    // Non connecté, garder le bouton de connexion
+                }
+            }
+            
+            async function logout() {
+                await fetch('/api/auth/logout', { method: 'POST' });
+                window.location.reload();
+            }
+            
+            document.addEventListener('DOMContentLoaded', checkLoginStatus);
+        </script>
+
+        <div class="cards-grid">
+            <a href="/chatbot" class="card">
+                <div class="card-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h2>💬 Chatbot RH</h2>
+                <p>Posez vos questions sur les congés, la paie, les avantages sociaux. Réponses instantanées 24h/24.</p>
+            </a>
+
+            <a href="/employe" class="card">
+                <div class="card-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2>👤 Espace Employé</h2>
+                <p>Gérez vos demandes de congés, remboursements et consultez vos notifications personnelles.</p>
+            </a>
+
+            <a href="/gestionnaire" class="card">
+                <div class="card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h2>📊 Espace Gestionnaire</h2>
+                <p>Dashboard RH complet : validez les demandes, suivez les échéances et analysez les tendances.</p>
+            </a>
+        </div>
+
+        <section class="features">
+            <h3>🚀 Fonctionnalités</h3>
+            <div class="features-grid">
+                <div class="feature">
+                    <i class="fas fa-calendar-check"></i>
+                    <h4>Gestion des Congés</h4>
+                    <p>Demandez et suivez vos congés facilement</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h4>Informations Paie</h4>
+                    <p>Consultez vos fiches et dates de virement</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-gift"></i>
+                    <h4>Avantages Sociaux</h4>
+                    <p>Mutuelle, transport, tickets restaurant</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-bell"></i>
+                    <h4>Notifications</h4>
+                    <p>Alertes sur vos échéances RH importantes</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-file-alt"></i>
+                    <h4>Attestations</h4>
+                    <p>Demandez vos documents en quelques clics</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-brain"></i>
+                    <h4>IA Intelligente</h4>
+                    <p>Réponses précises grâce à SpaCy NLP</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2024 Chatbot RH - Fonction Publique | Développé avec ❤️ et Flask + SpaCy</p>
+        </footer>
+    </div>
+</body>
+</html>
+
