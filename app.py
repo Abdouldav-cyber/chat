@@ -57,6 +57,7 @@ def login_page():
     return render_template('login.html')
 
 @app.route('/chatbot')
+@app.route('/chatbot/')
 def chatbot():
     """Interface du chatbot (accessible à tous)"""
     return render_template('chatbot.html')
@@ -280,13 +281,35 @@ def test_db():
 def init_db():
     """Initialise la base de données"""
     try:
-        from app.database.connection import init_database
+        from app.database.connection import init_database, get_db
         init_database()
-        
+
+        # S'assurer que la table intents existe avec le bon schéma
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS intents (
+                id SERIAL PRIMARY KEY,
+                intent_name VARCHAR(100) UNIQUE NOT NULL,
+                categorie VARCHAR(50),
+                description TEXT,
+                reponse TEXT NOT NULL,
+                mots_cles TEXT[],
+                priorite INTEGER DEFAULT 0,
+                actif BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        conn.commit()
+        cur.close()
+        conn.close()
+
         # Recharger les intentions
         from app.services.nlp_service import nlp_service
         nlp_service.reload_intents()
-        
+
         return "✅ Base de données initialisée avec succès !"
     except Exception as e:
         return f"❌ Erreur : {str(e)}"

@@ -92,7 +92,9 @@ def init_database():
     migrations_path = os.path.join(os.path.dirname(__file__), '..', '..', 'migrations.sql')
     
     if os.path.exists(migrations_path):
-        with open(migrations_path, 'r', encoding='utf-8') as f:
+        # Utiliser utf-8-sig pour supprimer un éventuel BOM au début du fichier SQL
+        # Cela évite l'erreur de syntaxe "sur ou près de \"\ufeff\"" lors de l'exécution
+        with open(migrations_path, 'r', encoding='utf-8-sig') as f:
             sql = f.read()
         
         conn = get_db()
