@@ -17,4 +17,11 @@ def fix_admin_password():
     print("✅ Mot de passe admin corrigé (admin@rh.fr / admin123).")
 
 if __name__ == "__main__":
-    fix_admin_password()
+    try:
+        fix_admin_password()
+        print("✅ Script exécuté avec succès.")
+    except Exception as e:
+        print(f"❌ Erreur : {e}")
+    finally:
+        # No need to close cur and conn here, it's already done in fix_admin_password()
+        pass
